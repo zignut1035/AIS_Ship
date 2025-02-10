@@ -1,0 +1,246 @@
+{
+    "type": "FeatureCollection",
+    "dataUpdatedTime": "2025-02-10T13:03:22.051Z",
+    "features": [
+        {
+            "siteNumber": 8659,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.75745,
+                    63.06555
+                ]
+            },
+            "properties": {
+                "siteNumber": 8659,
+                "siteName": "Kelloniemi_2",
+                "siteType": "FLOATING",
+                "lastUpdate": "2022-04-17T17:31:39Z",
+                "seaState": "CALM",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 187,
+                "confidence": "GOOD",
+                "heelAngle": 2.9,
+                "lightStatus": "OFF",
+                "temperature": 10
+            }
+        },
+        {
+            "siteNumber": 11337,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.91961,
+                    59.82382
+                ]
+            },
+            "properties": {
+                "siteNumber": 11337,
+                "siteName": "Hankon.p.ylem",
+                "siteType": "FIXED",
+                "lastUpdate": "2025-02-10T13:00:52Z",
+                "seaState": null,
+                "trend": null,
+                "windWaveDir": null,
+                "confidence": "GOOD",
+                "heelAngle": null,
+                "lightStatus": "OFF",
+                "temperature": 6
+            }
+        },
+        {
+            "siteNumber": 11639,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    22.92278,
+                    59.82202
+                ]
+            },
+            "properties": {
+                "siteNumber": 11639,
+                "siteName": "Hankon.p.alem",
+                "siteType": "FIXED",
+                "lastUpdate": "2025-02-10T12:00:47Z",
+                "seaState": null,
+                "trend": null,
+                "windWaveDir": null,
+                "confidence": "GOOD",
+                "heelAngle": null,
+                "lightStatus": "OFF",
+                "temperature": 7
+            }
+        },
+        {
+            "siteNumber": 20169,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.36418,
+                    60.7877
+                ]
+            },
+            "properties": {
+                "siteNumber": 20169,
+                "siteName": "Hattukari",
+                "siteType": "FLOATING",
+                "lastUpdate": "2023-08-28T09:31:32Z",
+                "seaState": "CALM",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 143,
+                "confidence": "GOOD",
+                "heelAngle": 0.2,
+                "lightStatus": "OFF",
+                "temperature": 15
+            }
+        },
+        {
+            "siteNumber": 20243,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.35563,
+                    60.78513
+                ]
+            },
+            "properties": {
+                "siteNumber": 20243,
+                "siteName": "Kipsi",
+                "siteType": "FLOATING",
+                "lastUpdate": "2021-10-18T14:01:27Z",
+                "seaState": "CALM",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 310,
+                "confidence": "GOOD",
+                "heelAngle": 3.7,
+                "lightStatus": "OFF",
+                "temperature": 10
+            }
+        },
+        {
+            "siteNumber": 20244,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.35647,
+                    60.78447
+                ]
+            },
+            "properties": {
+                "siteNumber": 20244,
+                "siteName": "Talla",
+                "siteType": "FLOATING",
+                "lastUpdate": "2025-02-10T13:01:36Z",
+                "seaState": "CALM",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 188,
+                "confidence": "GOOD",
+                "heelAngle": 4.8,
+                "lightStatus": "OFF",
+                "temperature": 11
+            }
+        },
+        {
+            "siteNumber": 20245,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.36514,
+                    60.78703
+                ]
+            },
+            "properties": {
+                "siteNumber": 20245,
+                "siteName": "Nuhja",
+                "siteType": "FLOATING",
+                "lastUpdate": "2025-02-10T13:01:36Z",
+                "seaState": "CALM",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 175,
+                "confidence": "GOOD",
+                "heelAngle": 6.4,
+                "lightStatus": "OFF",
+                "temperature": 7
+            }
+        },
+        {
+            "siteNumber": 20249,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.32731,
+                    60.78331
+                ]
+            },
+            "properties": {
+                "siteNumber": 20249,
+                "siteName": "Koivisto",
+                "siteType": "FLOATING",
+                "lastUpdate": "2025-02-10T13:01:30Z",
+                "seaState": "LIGHT",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 167,
+                "confidence": "GOOD",
+                "heelAngle": 3.4,
+                "lightStatus": "OFF",
+                "temperature": 8
+            }
+        },
+        {
+            "siteNumber": 81731,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.24504,
+                    61.10891
+                ]
+            },
+            "properties": {
+                "siteNumber": 81731,
+                "siteName": "Rauma_1",
+                "siteType": "FLOATING",
+                "lastUpdate": "2022-11-01T15:01:57Z",
+                "seaState": "LIGHT",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 332,
+                "confidence": "GOOD",
+                "heelAngle": 13.5,
+                "lightStatus": "OFF",
+                "temperature": 18
+            }
+        },
+        {
+            "siteNumber": 84482,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    21.27195,
+                    61.08284
+                ]
+            },
+            "properties": {
+                "siteNumber": 84482,
+                "siteName": "Rihtniemi_aalto",
+                "siteType": "FLOATING",
+                "lastUpdate": "2025-02-10T13:03:18Z",
+                "seaState": "MODERATE",
+                "trend": "NO_CHANGE",
+                "windWaveDir": 140,
+                "confidence": "GOOD",
+                "heelAngle": 3.8,
+                "lightStatus": "OFF",
+                "temperature": 12
+            }
+        }
+    ]
+}
