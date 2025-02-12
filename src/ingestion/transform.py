@@ -1,8 +1,11 @@
-import json
-import os
 import pandas as pd
+import os
 import logging
-from extract_APIs import get_vessel_location, get_sea_state_estimation, get_port_call
+from scipy.spatial import cKDTree
+import numpy as np
+import json
+from extract_APIs import get_vessel_location, get_sea_state_estimation, get_port_call, main
+
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -129,22 +132,41 @@ def transform_port_call_data():
     logging.info("Port call data transformed and saved.")
 
 
+
 def merge_vessel_port_sea_state_data():
-    """ Merge vessel_data, port_call_data, and sea_state_data based on mmsi. """
-    # Load the CSV files
+    """Merge vessel_data, port_call_data, and sea_state_data using nearest latitude-longitude match."""
+    
+    # Load CSV files
     vessel_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "vessel_data.csv"))
     port_call_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "port_call_data.csv"))
     sea_state_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "sea_state_data.csv"))
-    
-    # Merge vessel data with port call data using mmsi as the key
-    merged_df = vessel_df.merge(port_call_df, on="mmsi", how="left")
-    
-    # Now, merge the result with sea state data based on latitude and longitude
-    merged_df = merged_df.merge(sea_state_df, on=["latitude", "longitude"], how="left")
 
-    # Save the merged data to the data directory as ais_data.csv
+    # Ensure MMSI is consistent
+    vessel_df["mmsi"] = vessel_df["mmsi"].astype(str)
+    port_call_df["mmsi"] = port_call_df["mmsi"].astype(str)
+
+    # Merge vessel data with port call data
+    merged_df = vessel_df.merge(port_call_df, on="mmsi", how="inner")
+
+    ### === 🛠 Nearest Latitude-Longitude Match using KDTree === ###
+    vessel_coords = merged_df[["latitude", "longitude"]].to_numpy()
+    sea_state_coords = sea_state_df[["latitude", "longitude"]].to_numpy()
+
+    # Build KDTree for fast nearest-neighbor search
+    tree = cKDTree(sea_state_coords)
+    
+    # Find nearest sea_state_data point for each vessel position
+    _, nearest_idx = tree.query(vessel_coords, k=1)  # k=1 finds the closest match
+
+    # Assign nearest sea_state data to the merged_df
+    for col in sea_state_df.columns:
+        if col not in ["latitude", "longitude"]:  # Avoid duplicating coordinates
+            merged_df[col] = sea_state_df.iloc[nearest_idx][col].values
+
+    # Save the merged data
     merged_df.to_csv(os.path.join(EXTRACTED_DATA_PATH, "ais_data.csv"), index=False)
-    logging.info("Vessel, port call, and sea state data merged successfully and saved to data/ais_data.csv.")
+    logging.info("Vessel, port call, and sea state data merged successfully.")
+
 
 
 # Running the data transformation functions
