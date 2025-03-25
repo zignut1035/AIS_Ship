@@ -4,6 +4,7 @@ import logging
 from scipy.spatial import cKDTree
 import numpy as np
 import json
+from sqlalchemy import create_engine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -14,6 +15,10 @@ TRANSFORMED_DATA_PATH = "transformed_data/"
 
 # Ensure output directory exists
 os.makedirs(TRANSFORMED_DATA_PATH, exist_ok=True)
+
+# PostgreSQL connection string using SQLAlchemy
+DATABASE_URL = "postgresql+psycopg2://natuser:postgres@localhost:5432/ais_db"  # Replace 'yourpassword' with the actual password
+engine = create_engine(DATABASE_URL)
 
 def load_json(file_name):
     """ Load JSON file and handle errors. """
@@ -30,7 +35,7 @@ def transform_vessel_data():
     
     if not data:
         return
-
+    
     vessel_data = []
     
     for entry in data:
@@ -54,7 +59,7 @@ def transform_vessel_data():
                     coordinates = geometry.get("coordinates", [None, None])
                     latitude = coordinates[1]
                     longitude = coordinates[0]
-
+                    
                     vessel_data.append([mmsi, sog, cog, nav_stat, rot, pos_acc, raim, heading,
                                         timestamp, timestamp_external, latitude, longitude])
         
@@ -62,6 +67,10 @@ def transform_vessel_data():
     
     df.to_csv(os.path.join(TRANSFORMED_DATA_PATH, "vessel_data.csv"), index=False)
     logging.info("Vessel data transformed and saved.")
+
+    # Store the data in PostgreSQL
+    df.to_sql('vessel_data', engine, if_exists='replace', index=False)
+    logging.info("Vessel data stored in PostgreSQL.")
 
 def transform_sea_state_data():
     """Transform sea state estimation data into a structured format."""
@@ -105,6 +114,10 @@ def transform_sea_state_data():
     
     df.to_csv(os.path.join(TRANSFORMED_DATA_PATH, "sea_state_data.csv"), index=False)
     logging.info("Sea state estimation data transformed and saved.")
+
+    # Store the data in PostgreSQL
+    df.to_sql('sea_state_data', engine, if_exists='replace', index=False)
+    logging.info("Sea state data stored in PostgreSQL.")
 
 def transform_port_call_data():
     """Transform port call data into a structured format."""
@@ -160,49 +173,7 @@ def transform_port_call_data():
     df.to_csv(os.path.join(TRANSFORMED_DATA_PATH, "port_call_data.csv"), index=False)
     logging.info("Port call data transformed and saved.")
 
-def merge_vessel_port_sea_state_data():
-    """Merge vessel_data, port_call_data, and sea_state_data using nearest latitude-longitude match."""
-    try:
-        vessel_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "vessel_data.csv"))
-        port_call_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "port_call_data.csv"))
-        sea_state_df = pd.read_csv(os.path.join(TRANSFORMED_DATA_PATH, "sea_state_data.csv"))
+    # Store the data in PostgreSQL
+    df.to_sql('port_call_data', engine, if_exists='replace', index=False)
+    logging.info("Port call data stored in PostgreSQL.")
 
-        vessel_df["mmsi"] = vessel_df["mmsi"].astype(str)
-        port_call_df["mmsi"] = port_call_df["mmsi"].astype(str)
-
-        # Convert to datetime and make sure they are timezone-naive
-        vessel_df["timestamp"] = pd.to_datetime(vessel_df["timestamp"], unit='ms').dt.tz_localize(None)
-        port_call_df["port_call_timestamp"] = pd.to_datetime(port_call_df["port_call_timestamp"]).dt.tz_localize(None)
-        sea_state_df["last_update"] = pd.to_datetime(sea_state_df["last_update"]).dt.tz_localize(None)
-
-        merged_df = vessel_df.merge(port_call_df, on="mmsi", how="inner")
-
-        vessel_coords = merged_df[["latitude", "longitude"]].to_numpy()
-        sea_state_coords = sea_state_df[["latitude", "longitude"]].to_numpy()
-
-        tree = cKDTree(sea_state_coords)
-        _, nearest_idx = tree.query(vessel_coords, k=1)
-
-        for col in sea_state_df.columns:
-            if col not in ["latitude", "longitude"]:
-                merged_df[col] = sea_state_df.iloc[nearest_idx][col].values
-
-        merged_df.to_csv(os.path.join(EXTRACTED_DATA_PATH, "ais_data.csv"), index=False)
-        logging.info("Vessel, port call, and sea state data merged successfully.")
-    except Exception as e:
-        logging.error(f"Error merging data: {e}")
-
-
-def main():
-    """Main function to perform all transformations."""
-    logging.info("Starting data transformation...")
-    
-    transform_vessel_data()
-    transform_sea_state_data()
-    transform_port_call_data()
-    merge_vessel_port_sea_state_data()
-    
-    logging.info("Data transformation complete.")
-
-if __name__ == "__main__":
-    main()

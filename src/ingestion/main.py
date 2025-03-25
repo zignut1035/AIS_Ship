@@ -3,7 +3,7 @@ import logging
 import os
 import argparse
 from extract_updated import get_vessel_location, get_sea_state_estimation, get_port_call
-from transform_updated import transform_vessel_data, transform_sea_state_data, transform_port_call_data, merge_vessel_port_sea_state_data
+from transform_updated import transform_vessel_data, transform_sea_state_data, transform_port_call_data
 
 # Set up logging
 def setup_logging():
@@ -37,7 +37,6 @@ def transform_data():
     transform_vessel_data()
     transform_sea_state_data()
     transform_port_call_data()
-    merge_vessel_port_sea_state_data()
     logging.info("Data transformation complete.")
 
 def main():
